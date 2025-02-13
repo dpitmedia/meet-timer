@@ -4,11 +4,9 @@
   <meta charset="utf-8">
   <title>ECF Mastermind Timer</title>
   <style>
-    /* Use min-height to ensure all content is visible */
     body {
       margin: 0;
       background: transparent;
-      /* Removed overflow: hidden to ensure nothing is clipped */
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -20,15 +18,14 @@
       color: white;
       margin-bottom: 20px;
     }
-    /* Timer display: 50% of viewport width & height, centered */
+    /* Main Timer styling */
     #timer {
       width: 50vw;
       height: 50vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      /* Timer number 2x larger than before */
-      font-size: calc(50vh * 0.4);
+      font-size: calc(50vh * 0.4); /* 2x larger number */
       color: white;
       background: rgba(0, 0, 0, 0.5);
       border-radius: 10px;
@@ -40,6 +37,7 @@
       flex-direction: column;
       align-items: center;
       gap: 10px;
+      margin-bottom: 30px;
     }
     /* Preset buttons row */
     #presetButtons {
@@ -48,7 +46,6 @@
       flex-wrap: wrap;
       justify-content: center;
     }
-    /* Buttons and input styling */
     button, input {
       font-size: 24px;
       padding: 5px 10px;
@@ -62,16 +59,40 @@
     #manualControl input {
       width: 100px;
     }
+    /* Meeting Timer styling */
+    #meetingTimerContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    #meetingTimer {
+      font-size: 36px;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+    #meetingInputContainer {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    #meetingInputContainer input {
+      width: 100px;
+      font-size: 24px;
+      padding: 5px 10px;
+    }
   </style>
 </head>
 <body>
   <!-- Title -->
   <h1>ECF Mastermind Timer</h1>
 
-  <!-- Timer Display -->
+  <!-- Main Timer Display -->
   <div id="timer">00:00</div>
 
-  <!-- Controls: Presets and Manual Input -->
+  <!-- Controls for Main Timer -->
   <div id="controls">
     <div id="presetButtons">
       <button onclick="startTimer(1)">1 Minute</button>
@@ -86,12 +107,21 @@
     </div>
   </div>
 
+  <!-- Meeting Timer Section -->
+  <div id="meetingTimerContainer">
+    <div id="meetingTimer">Meeting: 90:00</div>
+    <div id="meetingInputContainer">
+      <input type="number" id="meetingMinutesInput" placeholder="90" min="1">
+      <button onclick="startMeetingTimerFromInput()">Set Meeting Timer</button>
+    </div>
+  </div>
+
   <script>
+    // Main Timer Code
     let totalSeconds = 0;
     let timerInterval = null;
     const timerDiv = document.getElementById('timer');
 
-    // Start timer with specified minutes
     function startTimer(minutes) {
       totalSeconds = minutes * 60;
       if (timerInterval) clearInterval(timerInterval);
@@ -108,7 +138,6 @@
       }, 1000);
     }
 
-    // Start timer using value from manual input
     function startTimerFromInput() {
       const input = document.getElementById('minutesInput').value;
       const minutes = parseInt(input, 10);
@@ -116,6 +145,42 @@
         startTimer(minutes);
       } else {
         alert("Please enter a valid number of minutes.");
+      }
+    }
+
+    // Meeting Timer Code
+    let meetingTotalSeconds = 90 * 60; // Default to 90 minutes
+    let meetingTimerInterval = null;
+    const meetingTimerDiv = document.getElementById('meetingTimer');
+
+    function startMeetingTimer(minutes) {
+      meetingTotalSeconds = minutes * 60;
+      updateMeetingTimerDisplay(); // Update immediately
+      if (meetingTimerInterval) clearInterval(meetingTimerInterval);
+      meetingTimerInterval = setInterval(() => {
+        if (meetingTotalSeconds <= 0) {
+          clearInterval(meetingTimerInterval);
+          meetingTimerDiv.textContent = "Meeting: Time's up!";
+          return;
+        }
+        meetingTotalSeconds--;
+        updateMeetingTimerDisplay();
+      }, 1000);
+    }
+
+    function updateMeetingTimerDisplay() {
+      const m = Math.floor(meetingTotalSeconds / 60).toString().padStart(2, '0');
+      const s = (meetingTotalSeconds % 60).toString().padStart(2, '0');
+      meetingTimerDiv.textContent = `Meeting: ${m}:${s}`;
+    }
+
+    function startMeetingTimerFromInput() {
+      const input = document.getElementById('meetingMinutesInput').value;
+      const minutes = parseInt(input, 10);
+      if (!isNaN(minutes) && minutes > 0) {
+        startMeetingTimer(minutes);
+      } else {
+        alert("Please enter a valid number of minutes for the meeting.");
       }
     }
   </script>
