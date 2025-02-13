@@ -1,1 +1,123 @@
-Test
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>ECF Mastermind Timer</title>
+  <style>
+    /* Use min-height to ensure all content is visible */
+    body {
+      margin: 0;
+      background: transparent;
+      /* Removed overflow: hidden to ensure nothing is clipped */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    /* Title styling */
+    h1 {
+      color: white;
+      margin-bottom: 20px;
+    }
+    /* Timer display: 50% of viewport width & height, centered */
+    #timer {
+      width: 50vw;
+      height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* Timer number 2x larger than before */
+      font-size: calc(50vh * 0.4);
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    /* Controls container styling */
+    #controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+    /* Preset buttons row */
+    #presetButtons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    /* Buttons and input styling */
+    button, input {
+      font-size: 24px;
+      padding: 5px 10px;
+    }
+    /* Manual input styling */
+    #manualControl {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    #manualControl input {
+      width: 100px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Title -->
+  <h1>ECF Mastermind Timer</h1>
+
+  <!-- Timer Display -->
+  <div id="timer">00:00</div>
+
+  <!-- Controls: Presets and Manual Input -->
+  <div id="controls">
+    <div id="presetButtons">
+      <button onclick="startTimer(1)">1 Minute</button>
+      <button onclick="startTimer(5)">5 Minutes</button>
+      <button onclick="startTimer(10)">10 Minutes</button>
+      <button onclick="startTimer(15)">15 Minutes</button>
+      <button onclick="startTimer(20)">20 Minutes</button>
+    </div>
+    <div id="manualControl">
+      <input type="number" id="minutesInput" placeholder="Minutes" min="1">
+      <button onclick="startTimerFromInput()">Start Timer</button>
+    </div>
+  </div>
+
+  <script>
+    let totalSeconds = 0;
+    let timerInterval = null;
+    const timerDiv = document.getElementById('timer');
+
+    // Start timer with specified minutes
+    function startTimer(minutes) {
+      totalSeconds = minutes * 60;
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (totalSeconds <= 0) {
+          clearInterval(timerInterval);
+          timerDiv.textContent = "Time's up!";
+          return;
+        }
+        totalSeconds--;
+        const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+        const s = (totalSeconds % 60).toString().padStart(2, '0');
+        timerDiv.textContent = `${m}:${s}`;
+      }, 1000);
+    }
+
+    // Start timer using value from manual input
+    function startTimerFromInput() {
+      const input = document.getElementById('minutesInput').value;
+      const minutes = parseInt(input, 10);
+      if (!isNaN(minutes) && minutes > 0) {
+        startTimer(minutes);
+      } else {
+        alert("Please enter a valid number of minutes.");
+      }
+    }
+  </script>
+</body>
+</html>
