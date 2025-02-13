@@ -12,76 +12,91 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
+      padding: 10px; /* Adds a little padding to avoid cutoff */
     }
     /* Title styling */
     h1 {
       color: white;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+      font-size: 2em;
     }
     /* Main Timer styling */
     #timer {
       width: 50vw;
-      height: 50vh;
+      height: 40vh; /* Reduced height for a smaller footprint */
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: calc(50vh * 0.4); /* 2x larger number */
+      font-size: calc(40vh * 0.4);
       color: white;
       background: rgba(0, 0, 0, 0.5);
       border-radius: 10px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }
     /* Controls container styling */
     #controls {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 30px;
+      gap: 5px;
+      margin-bottom: 15px;
     }
     /* Preset buttons row */
     #presetButtons {
       display: flex;
-      gap: 10px;
+      gap: 5px;
       flex-wrap: wrap;
       justify-content: center;
     }
+    /* Buttons and input styling */
     button, input {
-      font-size: 24px;
-      padding: 5px 10px;
+      font-size: 18px; /* Slightly smaller font */
+      padding: 5px 8px; /* Smaller padding */
+      border: none;     /* No border */
+      border-radius: 8px; /* More rounded corners */
+      background-color: #444; /* A neutral dark background */
+      color: white;
+    }
+    button:hover {
+      background-color: #555;
+      cursor: pointer;
     }
     /* Manual input styling */
     #manualControl {
       display: flex;
-      gap: 10px;
+      gap: 5px;
       align-items: center;
     }
     #manualControl input {
-      width: 100px;
+      width: 80px;
     }
     /* Meeting Timer styling */
     #meetingTimerContainer {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 5px;
     }
     #meetingTimer {
-      font-size: 36px;
+      font-size: 24px;
       color: white;
       background: rgba(0, 0, 0, 0.5);
-      padding: 10px 15px;
-      border-radius: 5px;
+      padding: 5px 10px;
+      border-radius: 8px;
     }
     #meetingInputContainer {
       display: flex;
-      gap: 10px;
+      gap: 5px;
       align-items: center;
     }
     #meetingInputContainer input {
-      width: 100px;
-      font-size: 24px;
-      padding: 5px 10px;
+      width: 80px;
+      font-size: 18px;
+      padding: 5px 8px;
+      border: none;
+      border-radius: 8px;
+      background-color: #444;
+      color: white;
     }
   </style>
 </head>
@@ -95,15 +110,15 @@
   <!-- Controls for Main Timer -->
   <div id="controls">
     <div id="presetButtons">
-      <button onclick="startTimer(1)">1 Minute</button>
-      <button onclick="startTimer(5)">5 Minutes</button>
-      <button onclick="startTimer(10)">10 Minutes</button>
-      <button onclick="startTimer(15)">15 Minutes</button>
-      <button onclick="startTimer(20)">20 Minutes</button>
+      <button onclick="startTimer(1)">1 Min</button>
+      <button onclick="startTimer(5)">5 Min</button>
+      <button onclick="startTimer(10)">10 Min</button>
+      <button onclick="startTimer(15)">15 Min</button>
+      <button onclick="startTimer(20)">20 Min</button>
     </div>
     <div id="manualControl">
-      <input type="number" id="minutesInput" placeholder="Minutes" min="1">
-      <button onclick="startTimerFromInput()">Start Timer</button>
+      <input type="number" id="minutesInput" placeholder="Min" min="1">
+      <button onclick="startTimerFromInput()">Start</button>
     </div>
   </div>
 
@@ -112,7 +127,7 @@
     <div id="meetingTimer">Meeting: 90:00</div>
     <div id="meetingInputContainer">
       <input type="number" id="meetingMinutesInput" placeholder="90" min="1">
-      <button onclick="startMeetingTimerFromInput()">Set Meeting Timer</button>
+      <button onclick="startMeetingTimerFromInput()">Set</button>
     </div>
   </div>
 
