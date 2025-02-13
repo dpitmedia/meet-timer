@@ -27,7 +27,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: calc(50vh * 0.2);
+      font-size: calc(50vh * 0.4); /* 2x larger than before */
       color: white;
       background: rgba(0, 0, 0, 0.5);
       border-radius: 10px;
@@ -73,48 +73,4 @@
     <div id="presetButtons">
       <button onclick="startTimer(1)">1 Minute</button>
       <button onclick="startTimer(5)">5 Minutes</button>
-      <button onclick="startTimer(10)">10 Minutes</button>
-      <button onclick="startTimer(15)">15 Minutes</button>
-      <button onclick="startTimer(20)">20 Minutes</button>
-    </div>
-    <div id="manualControl">
-      <input type="number" id="minutesInput" placeholder="Minutes" min="1">
-      <button onclick="startTimerFromInput()">Start Timer</button>
-    </div>
-  </div>
-
-  <script>
-    let totalSeconds = 0;
-    let timerInterval = null;
-    const timerDiv = document.getElementById('timer');
-
-    // Start timer with specified minutes
-    function startTimer(minutes) {
-      totalSeconds = minutes * 60;
-      if (timerInterval) clearInterval(timerInterval);
-      timerInterval = setInterval(() => {
-        if (totalSeconds <= 0) {
-          clearInterval(timerInterval);
-          timerDiv.textContent = "Time's up!";
-          return;
-        }
-        totalSeconds--;
-        const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
-        const s = (totalSeconds % 60).toString().padStart(2, '0');
-        timerDiv.textContent = `${m}:${s}`;
-      }, 1000);
-    }
-
-    // Start timer using value from manual input
-    function startTimerFromInput() {
-      const input = document.getElementById('minutesInput').value;
-      const minutes = parseInt(input, 10);
-      if (!isNaN(minutes) && minutes > 0) {
-        startTimer(minutes);
-      } else {
-        alert("Please enter a valid number of minutes.");
-      }
-    }
-  </script>
-</body>
-</html>
+      <button onclick="startTim
