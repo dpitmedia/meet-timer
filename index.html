@@ -12,18 +12,19 @@
       align-items: center;
       justify-content: center;
       min-height: 100vh;
-      padding: 10px; /* Adds a little padding to avoid cutoff */
+      padding: 10px;
     }
-    /* Title styling */
+    /* Title styling with Arial */
     h1 {
       color: white;
       margin-bottom: 10px;
       font-size: 2em;
+      font-family: Arial, sans-serif;
     }
     /* Main Timer styling */
     #timer {
       width: 50vw;
-      height: 40vh; /* Reduced height for a smaller footprint */
+      height: 40vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -50,11 +51,11 @@
     }
     /* Buttons and input styling */
     button, input {
-      font-size: 18px; /* Slightly smaller font */
-      padding: 5px 8px; /* Smaller padding */
-      border: none;     /* No border */
-      border-radius: 8px; /* More rounded corners */
-      background-color: #444; /* A neutral dark background */
+      font-size: 18px;
+      padding: 5px 8px;
+      border: none;
+      border-radius: 8px;
+      background-color: #444;
       color: white;
     }
     button:hover {
@@ -126,7 +127,8 @@
   <div id="meetingTimerContainer">
     <div id="meetingTimer">Meeting: 90:00</div>
     <div id="meetingInputContainer">
-      <input type="number" id="meetingMinutesInput" placeholder="90" min="1">
+      <!-- Set the default value to 90 -->
+      <input type="number" id="meetingMinutesInput" placeholder="90" value="90" min="1">
       <button onclick="startMeetingTimerFromInput()">Set</button>
     </div>
   </div>
