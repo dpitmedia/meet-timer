@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Timer Overlay</title>
+  <style>
+    /* Make the background transparent */
+    body {
+      margin: 0;
+      background: transparent;
+      overflow: hidden;
+    }
+    /* Style the timer display */
+    #timer {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 48px;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div id="timer">00:00</div>
+  <script>
+    let totalSeconds = 0;
+    let timerInterval = null;
+
+    function startTimer(minutes) {
+      totalSeconds = minutes * 60;
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (totalSeconds <= 0) {
+          clearInterval(timerInterval);
+          document.getElementById('timer').textContent = "Time's up!";
+          return;
+        }
+        totalSeconds--;
+        const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+        const s = (totalSeconds % 60).toString().padStart(2, '0');
+        document.getElementById('timer').textContent = `${m}:${s}`;
+      }, 1000);
+    }
+
+    // Use the 'T' key to trigger the timer
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 't') {
+        const input = prompt("Enter minutes for the timer:");
+        const minutes = parseInt(input, 10);
+        if (!isNaN(minutes) && minutes > 0) {
+          startTimer(minutes);
+        }
+      }
+    });
+  </script>
+</body>
+</html>
