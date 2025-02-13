@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>Timer Overlay</title>
   <style>
-    /* Make the background transparent */
+    /* Make background transparent for OBS */
     body {
       margin: 0;
       background: transparent;
       overflow: hidden;
     }
-    /* Style the timer display */
+    /* Style for the timer display */
     #timer {
       position: absolute;
       top: 20px;
@@ -20,41 +21,66 @@
       padding: 10px 15px;
       border-radius: 5px;
     }
+    /* Controls styling */
+    #controls {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: white;
+    }
+    #controls input {
+      font-size: 24px;
+      padding: 5px;
+    }
+    #controls button {
+      font-size: 24px;
+      padding: 5px;
+      margin-left: 10px;
+    }
   </style>
 </head>
 <body>
+  <!-- Timer display -->
   <div id="timer">00:00</div>
+
+  <!-- Timer controls -->
+  <div id="controls">
+    <input type="number" id="minutesInput" placeholder="Minutes" min="1">
+    <button onclick="startTimerFromInput()">Start Timer</button>
+  </div>
+
   <script>
     let totalSeconds = 0;
     let timerInterval = null;
+    const timerDiv = document.getElementById('timer');
 
+    // Starts the countdown given a number of minutes
     function startTimer(minutes) {
       totalSeconds = minutes * 60;
       if (timerInterval) clearInterval(timerInterval);
       timerInterval = setInterval(() => {
         if (totalSeconds <= 0) {
           clearInterval(timerInterval);
-          document.getElementById('timer').textContent = "Time's up!";
+          timerDiv.textContent = "Time's up!";
           return;
         }
         totalSeconds--;
         const m = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
         const s = (totalSeconds % 60).toString().padStart(2, '0');
-        document.getElementById('timer').textContent = `${m}:${s}`;
+        timerDiv.textContent = `${m}:${s}`;
       }, 1000);
     }
 
-    // Use the 'T' key to trigger the timer
-    document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 't') {
-        const input = prompt("Enter minutes for the timer:");
-        const minutes = parseInt(input, 10);
-        if (!isNaN(minutes) && minutes > 0) {
-          startTimer(minutes);
-        }
+    // Retrieves input from the field and starts the timer
+    function startTimerFromInput() {
+      const input = document.getElementById('minutesInput').value;
+      const minutes = parseInt(input, 10);
+      if (!isNaN(minutes) && minutes > 0) {
+        startTimer(minutes);
+      } else {
+        alert("Please enter a valid number of minutes.");
       }
-    });
+    }
   </script>
-  <button onclick="startTimer(1)">Start 10-Min Timer</button>
 </body>
 </html>
